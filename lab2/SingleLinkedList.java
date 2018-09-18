@@ -1,3 +1,8 @@
+/*
+ * Alexandre Castro
+ * Lab 2
+ * 09/18/18
+ */
 public class SingleLinkedList<E> {
   
   // Nested Class
@@ -169,9 +174,8 @@ public class SingleLinkedList<E> {
   public boolean add(E item) {
     if(size == 0){
       addFirst(item);
-      //return true;
-    }
-    if(head != null){
+      return true;
+    }else if(head != null){
       add((size-1), item);
       return true;
     }
