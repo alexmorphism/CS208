@@ -97,9 +97,7 @@ public class SingleLinkedList<E> {
    * @returns The node at index or null if it does not exist
    */
   private Node<E> getNode(int index) {
-    //int a = 0;
     Node<E> cur = head;
-    //cur = cur.next;
     for(int i = 0; i < index; i++){ 
       if(cur.next == null) 
         return cur;
@@ -109,7 +107,10 @@ public class SingleLinkedList<E> {
     return cur;   
   }
   
-  // Public Methods
+  /*********************PUBLIC METHODS*********************************/
+  
+  
+  
   /**
    * Get the data value at index
    * @param index The index of the element to return
@@ -153,9 +154,10 @@ public class SingleLinkedList<E> {
       throw new IndexOutOfBoundsException();
     if(index == 0)
       addFirst(item);
-    Node<E> node = getNode(index);
-    Node<E> temp = new Node<E>(item, node);
-    //node.next = temp;
+    else{
+      Node<E> node = getNode(index);
+      addAfter(node, item);
+    }
     size++;
   }
   
@@ -167,12 +169,11 @@ public class SingleLinkedList<E> {
   public boolean add(E item) {
     if(size == 0){
       addFirst(item);
-
+      //return true;
     }
     if(head != null){
-      //Node<E> aNode = head;
-      //aNode.data = item;
       add((size-1), item);
+      return true;
     }
     return true;
   }
