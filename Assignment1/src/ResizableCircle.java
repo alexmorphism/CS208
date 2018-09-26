@@ -12,10 +12,14 @@ public class ResizableCircle extends Circle implements Resizable{
   /***Attributes****/
   private Color color;
   private Ellipse cir;
+  private double x;
+  private double y;
   
   //no arg constructor
   public ResizableCircle(){
     super();
+    x = 50;
+    y = 50;
     color = Color.RED;
     cir = new Ellipse(200, 500, 100, 100);
     cir.setFill(Color.GREEN);
@@ -23,10 +27,12 @@ public class ResizableCircle extends Circle implements Resizable{
   }
   
   //parametrized constructor
-  public ResizableCircle(double xLoc, double yLoc, double radius, Color c){
-   super(xLoc, yLoc, radius);
+  public ResizableCircle(double radius, double x , double y, Color c){
+   super(radius);
+   this.x = x;
+   this.y = y;
    color = c;
-   cir = new Ellipse(xLoc, yLoc, radius, radius);
+   cir = new Ellipse(x,y, radius, radius);
    cir.setFill(color);
    cir.setStroke(c);
    
@@ -42,12 +48,30 @@ public class ResizableCircle extends Circle implements Resizable{
   }
   
   @Override
-  public void resize(){}
+  public void resize(){
+    setX(x);
+    setY(y);
+    setRadius(getRadius());
+  }
+  public double getX(){
+      return x;
+  }
+  
+  public double getY(){
+      return y;
+  }
+  
+  public double setX(double xNew){
+    return x = xNew;      
+  }
+  
+  public double setY(double yNew){
+      return y = yNew;
+  }
+
   
   public Ellipse draw(){
-    //Group circle = new Group();
-    //cir.setFill(color);
-    //circle.getChildren().add(cir);
+
     return cir;
   }
   
