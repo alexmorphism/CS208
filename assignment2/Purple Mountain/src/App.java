@@ -4,12 +4,16 @@
  * and open the template in the editor.
  */
 
+import java.util.ArrayList;
+import java.util.Collections;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 /**
@@ -18,22 +22,58 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
     
+    Stack[] stack = new Stack[5];
+    Queue[] queue = new Queue[3];
+    
+    ArrayList<Integer> random = new ArrayList<Integer>();
+    
+
+
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+        
+        for(int k = 1; k <= 3; k++){
+            random.add(k);
+        }
+        
+        Collections.shuffle(random);
+        
+        Button start = new Button("Start");
+        Button openTrial = new Button("Open Trial");
+        Button closeTrials = new Button("Close Trials");
+        
+        TextArea textArea = new TextArea();
+        
+        start.setOnAction(e->{
+            //System.out.println("Start!");
+            int total_hikers = 1;
+            for(int i = 0; i < stack.length; i++){
+                stack[i] = new Stack(10); //creates stacks
+                
+                for(int j = 0; j < 10; j++){ //adds 10 Hikers to each stack
+                    stack[i].push(new Hiker("Hiker" + total_hikers));
+                    String str = ((Hiker)stack[i].peek()).toString();
+                    textArea.appendText(str);
+                    total_hikers++;
+                }
             }
+            
+            //adds the hikers stack to the queue Randomly
+            for(int q = 0; q < 3; q++){
+                queue[q] = new Queue(stack[q].getMaxSize());
+                //queue[q] = ; 
+            }
+            
         });
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        openTrial.setOnAction(e-> System.out.println("Open Trials"));
+        closeTrials.setOnAction(e-> System.out.println("Close Trials"));
         
-        Scene scene = new Scene(root, 300, 250);
+        
+        VBox root = new VBox();
+        root.getChildren().addAll(textArea, start, openTrial, closeTrials);
+        
+        Scene scene = new Scene(root, 400, 300);
         
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);

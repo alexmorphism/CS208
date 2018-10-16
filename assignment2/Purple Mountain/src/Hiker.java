@@ -6,40 +6,34 @@
  */
 public class Hiker {
     private String name;
-    private int age;
     
-    public Hiker(String name, int age){
+    public Hiker(String name){
         this.name = name;
-        this.age = age;
     }
     
     public String getName(){
         return name;
     }
     
-    public int getAge(){
-        return age;
-    }
     
     public void setName(String n){
         name = n;
     }
     
-    public void setAge(int a){
-        age = a;
-    }
-    
-   /*public String toString(){
-        return "Hiker name: " + name + "\nHiker age: " + age;
+   public String toString(){
+        return name + "\n";
     }
     
     public boolean equals(Object obj){
-        if(obj == this) return true;
-        if(obj == null || getClass() != obj.getClass()) return false;
-        
-        Hiker other = (Hiker) obj;  
-        return name.equals(other.name) && age == other.age;
+        if (obj == this) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()){ 
+            Hiker other = (Hiker) obj;  
+            return name.equals(other.name);
+        } else{
+            return false;
+        }
     }
     
-    */
+    
 }
