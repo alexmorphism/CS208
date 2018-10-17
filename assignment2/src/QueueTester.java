@@ -4,15 +4,18 @@
  * This is a class to test the Queue class. It creates Hiker objects and puts the on the queue, testing all of it's methods. 
  * 
  */
+import java.lang.Math;
+import java.util.Random;
 public class QueueTester {
    
     public static void main(String[]args){
 
-        Hiker h0 = new Hiker("Alex", 27);
-        Hiker h1 = new Hiker("Abby", 22);
-        Hiker h2 = new Hiker("John", 18);
-        Hiker h3 = new Hiker("Paul", 25);
-        Hiker h4 = new Hiker("Ringo", 26);
+        /*
+        Hiker h0 = new Hiker("Alex");
+        Hiker h1 = new Hiker("Abby");
+        Hiker h2 = new Hiker("John");
+        Hiker h3 = new Hiker("Paul");
+        Hiker h4 = new Hiker("Ringo");
 
         Queue myQueue =  new Queue(5);
 
@@ -27,8 +30,7 @@ public class QueueTester {
         
         System.out.println("Hello anybody");
         myQueue.view();
-    
-        //myQueue.view();
+        */
     }
     
     
