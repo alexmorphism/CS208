@@ -20,11 +20,14 @@ public class BinaryTree<E> implements Serializable {
 
         /** The information stored in this node. */
         public E data;
-        /** Reference to the left child. */
-        public Node<E> left;
-        /** Reference to the right child. */
-        public Node<E> right;
-
+        /** Reference to the left child 1. */
+        public Node<E> leftChildOne;
+        /** Reference to the right child 1. */
+        public Node<E> rightChildOne;
+        /** Reference to the left child 2. */
+        public Node<E> leftChildTwo;
+        /** Reference to the right child 2. */
+        public Node<E> rightChildTwo;
         // Constructors
         /**
          * Construct a node with given data and no children.
@@ -32,8 +35,10 @@ public class BinaryTree<E> implements Serializable {
          */
         public Node(E data) {
             this.data = data;
-            left = null;
-            right = null;
+            leftChildOne = null;
+            rightChildOne = null;
+            leftChildTwo = null;
+            rightChildTwo = null;
         }
 
         // Methods
@@ -73,18 +78,18 @@ public class BinaryTree<E> implements Serializable {
      * Constructs a new binary tree with data in its root,leftTree
      * as its left subtree and rightTree as its right subtree.
      */
-    public BinaryTree(E data, BinaryTree<E> leftTree,
-            BinaryTree<E> rightTree) {
+    public BinaryTree(E data, BinaryTree<E> leftTreeOne,
+            BinaryTree<E> rightTreeOne) {
         root = new Node<E>(data);
-        if (leftTree != null) {
-            root.left = leftTree.root;
+        if (leftTreeOne != null) {
+            root.leftChildOne = leftTreeOne.root;
         } else {
-            root.left = null;
+            root.leftChildOne = null;
         }
-        if (rightTree != null) {
-            root.right = rightTree.root;
+        if (rightTreeOne != null) {
+            root.rightChildOne = rightTreeOne.root;
         } else {
-            root.right = null;
+            root.rightChildOne = null;
         }
     }
 
@@ -94,8 +99,8 @@ public class BinaryTree<E> implements Serializable {
      * the left subtree is null
      */
     public BinaryTree<E> getLeftSubtree() {
-        if (root != null && root.left != null) {
-            return new BinaryTree<E>(root.left);
+        if (root != null && root.leftChildOne != null && root.leftChildTwo != null) {
+            return new BinaryTree<E>(root.leftChildOne);
         } else {
             return null;
         }
@@ -108,8 +113,8 @@ public class BinaryTree<E> implements Serializable {
      *         right subtree is null.
      */
     public BinaryTree<E> getRightSubtree() {
-        if (root != null && root.right != null) {
-            return new BinaryTree<E>(root.right);
+        if (root != null && root.rightChildOne != null) {
+            return new BinaryTree<E>(root.rightChildOne);
         } else {
             return null;
         }
@@ -133,7 +138,8 @@ public class BinaryTree<E> implements Serializable {
      * @return true if the root has no children
      */
     public boolean isLeaf() {
-        return (root == null || (root.left == null && root.right == null));
+        return (root == null || (root.leftChildOne == null && root.rightChildOne == null &&
+        		                 root.leftChildTwo == null && root.rightChildTwo == null));
     }
 
     @Override
@@ -159,8 +165,10 @@ public class BinaryTree<E> implements Serializable {
         } else {
             sb.append(node.toString());
             sb.append("\n");
-            preOrderTraverse(node.left, depth + 1, sb);
-            preOrderTraverse(node.right, depth + 1, sb);
+            preOrderTraverse(node.leftChildOne, depth + 1, sb);
+            preOrderTraverse(node.rightChildOne, depth + 1, sb);
+            preOrderTraverse(node.leftChildTwo, depth + 1, sb);
+            preOrderTraverse(node.rightChildTwo, depth + 1, sb);
         }
     }
 
@@ -180,9 +188,9 @@ public class BinaryTree<E> implements Serializable {
         if (data.equals("null")) {
             return null;
         } else {
-            BinaryTree<String> leftTree = readBinaryTree(bR);
-            BinaryTree<String> rightTree = readBinaryTree(bR);
-            return new BinaryTree<String>(data, leftTree, rightTree);
+            BinaryTree<String> leftTreeOne = readBinaryTree(bR);
+            BinaryTree<String> rightTreeOne = readBinaryTree(bR);
+            return new BinaryTree<String>(data, leftTreeOne, rightTreeOne);
         }
     }
 
@@ -199,13 +207,21 @@ public class BinaryTree<E> implements Serializable {
 
     private void preorderToString(StringBuilder stb, Node<E> root) {
         stb.append(root);
-        if (root.left != null) {
+        if (root.leftChildOne != null) {
             stb.append(" ");
-            preorderToString(stb, root.left);
+            preorderToString(stb, root.leftChildOne);
         }
-        if (root.right != null) {
+        if (root.rightChildOne != null) {
             stb.append(" ");
-            preorderToString(stb, root.right);
+            preorderToString(stb, root.rightChildOne);
+        }
+        if (root.leftChildTwo != null) {
+            stb.append(" ");
+            preorderToString(stb, root.leftChildTwo);
+        }
+        if (root.rightChildTwo != null) {
+            stb.append(" ");
+            preorderToString(stb, root.rightChildTwo);
         }
     }
 
@@ -221,12 +237,20 @@ public class BinaryTree<E> implements Serializable {
     }
 
     private void postorderToString(StringBuilder stb, Node<E> root) {
-        if (root.left != null) {
-            postorderToString(stb, root.left);
+        if (root.leftChildOne != null) {
+            postorderToString(stb, root.leftChildOne);
             stb.append(" ");
         }
-        if (root.right != null) {
-            postorderToString(stb, root.right);
+        if (root.rightChildOne != null) {
+            postorderToString(stb, root.rightChildOne);
+            stb.append(" ");
+        }
+        if (root.leftChildTwo != null) {
+            postorderToString(stb, root.leftChildTwo);
+            stb.append(" ");
+        }
+        if (root.rightChildTwo != null) {
+            postorderToString(stb, root.rightChildTwo);
             stb.append(" ");
         }
         stb.append(root);
@@ -247,15 +271,26 @@ public class BinaryTree<E> implements Serializable {
     }
 
     private void inorderToString(StringBuilder stb, Node<E> root) {
-        if (root.left != null) {
+        if (root.leftChildOne != null) {
             stb.append("(");
-            inorderToString(stb, root.left);
+            inorderToString(stb, root.leftChildOne);
             stb.append(") ");
         }
         stb.append(root);
-        if (root.right != null) {
+        if (root.rightChildOne != null) {
             stb.append(" (");
-            inorderToString(stb, root.right);
+            inorderToString(stb, root.rightChildOne);
+            stb.append(")");
+        }
+        if (root.leftChildTwo != null) {
+            stb.append("(");
+            inorderToString(stb, root.leftChildTwo);
+            stb.append(") ");
+        }
+        stb.append(root);
+        if (root.rightChildTwo != null) {
+            stb.append(" (");
+            inorderToString(stb, root.rightChildTwo);
             stb.append(")");
         }
     }
@@ -296,14 +331,22 @@ public class BinaryTree<E> implements Serializable {
     		root = null;
     }
     private boolean removeLeaves(Node<E> root){    	
-    	if(root == null || (root.left == null && root.right == null) ){
+    	if(root == null || (root.leftChildOne == null && root.rightChildOne == null &&
+    						root.leftChildTwo == null && root.rightChildOne == null))
+    	{
     		return true;
     	}
-    	if(removeLeaves(root.left)){
-    		root.left = null;
+    	if(removeLeaves(root.leftChildOne)){
+    		root.leftChildOne = null;
     	}
-    	if(removeLeaves(root.right)){
-    		root.right = null;
+    	if(removeLeaves(root.rightChildOne)){
+    		root.rightChildOne = null;
+    	}
+    	if(removeLeaves(root.leftChildTwo)){
+    		root.leftChildTwo = null;
+    	}
+    	if(removeLeaves(root.rightChildTwo)){
+    		root.rightChildTwo = null;
     	}
     	return false;   	
     }
